@@ -21,7 +21,14 @@ exports.stringsAnswers = {
     return result;
   },
   wordWrap: function(str, cols) {
-    return str.replace(/ /g, '\n');
+    var index = cols - 1;
+
+    while((index = str.indexOf(' ', index)) !== -1) {
+      str = str.substr(0, index) + '\n' + str.substr(index + 1);
+      index += cols;
+    }
+
+    return str;
   },
   reverseString: function(str) {
     return str.split('').reverse().join('');

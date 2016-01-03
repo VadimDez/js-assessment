@@ -74,7 +74,7 @@ exports.arraysAnswers = {
 
     for (var key in unique) {
       if (unique[key] > 1) {
-        result.push(parseInt(key));
+        result.push(parseInt(key, 10));
       }
     }
 

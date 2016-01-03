@@ -17,7 +17,7 @@ module.exports = function(grunt) {
     watch: {
       scripts: {
         files: ['app/**/*.js', 'tests/app/**/*.js'],
-        tasks: ['jshint'],
+        //tasks: ['jshint'],
         options: {
           livereload: true
         }
