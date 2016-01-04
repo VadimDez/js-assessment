@@ -2,7 +2,21 @@ exports = (typeof window === 'undefined') ? global : window;
 
 exports.recursionAnswers = {
   listFiles: function(data, dirName) {
+    var result = [];
 
+    function rec(data) {
+      if (data.constructor === Array) {
+        data.forEach(rec);
+      } else if (data.constructor === Object) {
+        rec(data.files);
+      } else if (data.constructor === String) {
+        result.push(data);
+      }
+    }
+
+    rec(data);
+
+    return result;
   },
 
   permute: function(arr) {
@@ -17,7 +31,7 @@ exports.recursionAnswers = {
     // heap's
     function generate(n) {
       if (n === 1) {
-        permutations.push(arr);
+        permutations.push(arr.slice(0));
       } else {
         for (var i = 0; i < n - 1; i++) {
           generate(n - 1);
@@ -45,6 +59,25 @@ exports.recursionAnswers = {
   },
 
   validParentheses: function(n) {
+    var permutations = [];
 
+    function generate(opened, closed, pairs, permutation) {
+      if (opened === pairs && closed === pairs) {
+        permutations.push(permutation);
+        return;
+      }
+
+      if (opened < pairs) {
+        generate(opened + 1, closed, pairs, permutation + '(')
+      }
+
+      if (closed < opened) {
+        generate(opened, closed + 1, pairs, permutation + ')')
+      }
+    }
+
+    generate(0, 0, n, '');
+
+    return permutations;
   }
 };
