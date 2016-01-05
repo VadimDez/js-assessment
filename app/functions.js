@@ -30,35 +30,36 @@ exports.functionsAnswers = {
   },
 
   useArguments : function() {
-    return Array.prototype.slice.call(arguments).reduce(function (sum, value) {
+    return [].slice.call(arguments).reduce(function (sum, value) {
       return sum + value;
     }, 0);
   },
 
   callIt : function(fn) {
-    var args = Array.prototype.slice.call(arguments, 1);
+    var args = [].slice.call(arguments, 1);
 
     return fn.apply(null, args);
   },
 
   partialUsingArguments : function(fn) {
-    var args = Array.prototype.slice.call(arguments);
+    var args = [].slice.call(arguments);
     args.shift();
     return function () {
-      return fn.apply(null, args.concat(Array.prototype.slice.call(arguments)));
+      return fn.apply(null, args.concat([].slice.call(arguments)));
     }
   },
 
   curryIt : function(fn) {
-    var that;
-    var args = Array.prototype.slice.call(arguments, 1);
+    return function curried(a) {
+      var args = [].slice.call(arguments);
 
-    that = this;
-    return function () {
-      //if (args.length === (this.curryIt.length - 1)) {
-      //  return fn.apply(null, args);
-      //}
-      return that.curryIt.apply(this, args.concat(Array.prototype.slice.call(arguments)));
-    }
+      if (args.length >= fn.length) {
+        return fn.apply(null, args);
+      }
+
+      return function (a) {
+        return curried.apply(null, args.concat([].slice.call(arguments)));
+      }
+    };
   }
 };
