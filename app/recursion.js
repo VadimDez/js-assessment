@@ -4,17 +4,22 @@ exports.recursionAnswers = {
   listFiles: function(data, dirName) {
     var result = [];
 
-    function rec(data) {
+    function rec(data, dirName) {
       if (data.constructor === Array) {
-        data.forEach(rec);
+        data.forEach(function(value) {
+          rec(value, dirName);
+        });
       } else if (data.constructor === Object) {
-        rec(data.files);
-      } else if (data.constructor === String) {
+        if (dirName && data.dir === dirName) {
+          dirName = null;
+        }
+        rec(data.files, dirName);
+      } else if (data.constructor === String && !dirName) {
         result.push(data);
       }
     }
 
-    rec(data);
+    rec(data, dirName);
 
     return result;
   },
